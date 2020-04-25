@@ -69,7 +69,7 @@ public class MoneyExchangeService {
     private MoneyAccount checkIfTargetAccountExistsAndCreateIfNot(final ExchangeRequestDTO exchangeRequestDTO) {
         MoneyAccount toMoneyAmount = findUserMoneyAccount(exchangeRequestDTO.getPesel(), exchangeRequestDTO.getToCurrencyCode());
         if(toMoneyAmount == null) {
-            LOG.info("Not found account with currency {} for user {} Create new", exchangeRequestDTO.getFromCurrencyCode(), exchangeRequestDTO.getPesel());
+            LOG.info("Not found account with currency {} for user {} Create new", exchangeRequestDTO.getToCurrencyCode(), exchangeRequestDTO.getPesel());
             toMoneyAmount = new MoneyAccount();
             toMoneyAmount.setUser(userRepository.getByPesel(exchangeRequestDTO.getPesel()));
             toMoneyAmount.setCurrencyCode(exchangeRequestDTO.getToCurrencyCode());
