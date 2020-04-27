@@ -40,11 +40,11 @@ public class AdultValidator implements ConstraintValidator<Adult, String> {
     }
 
     private LocalDate calculateBirthDate(final String pesel) {
-        final int[] numberAsIntArray = getPeselAsarray(pesel);
+        final int[] numberAsIntArray = getPeselAsArray(pesel);
 
-        final int birthDay = 10 * numberAsIntArray[4] + numberAsIntArray[5];
-        int birthYear = 10 * numberAsIntArray[0] + numberAsIntArray[1];
-        int birthMonth = 10 * numberAsIntArray[2] + numberAsIntArray[3];
+        final int birthDay = getBirthDay(numberAsIntArray);
+        int birthYear = getBirthYear(numberAsIntArray);
+        int birthMonth = getBirthMonth(numberAsIntArray);
 
         if (birthMonth <= 12) {
             birthYear += 1900;
@@ -65,7 +65,19 @@ public class AdultValidator implements ConstraintValidator<Adult, String> {
         return LocalDate.of(birthYear, birthMonth, birthDay);
     }
 
-    private int[] getPeselAsarray(final String pesel) {
+    private int getBirthMonth(final int[] numberAsIntArray) {
+        return 10 * numberAsIntArray[2] + numberAsIntArray[3];
+    }
+
+    private int getBirthYear(final int[] numberAsIntArray) {
+        return 10 * numberAsIntArray[0] + numberAsIntArray[1];
+    }
+
+    private int getBirthDay(final int[] numberAsIntArray) {
+        return 10 * numberAsIntArray[4] + numberAsIntArray[5];
+    }
+
+    private int[] getPeselAsArray(final String pesel) {
         final int[] numberAsIntArray = new int[11];
         for (int i = 0; i < 11; i++) {
             numberAsIntArray[i] = Character.getNumericValue(pesel.charAt(i));

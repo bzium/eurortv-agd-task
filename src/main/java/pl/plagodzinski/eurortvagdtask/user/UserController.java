@@ -2,6 +2,7 @@ package pl.plagodzinski.eurortvagdtask.user;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +18,7 @@ import javax.validation.constraints.NotBlank;
 
 @RestController
 @RequestMapping("/user")
+@Validated
 public class UserController {
 
     private final UserService userService;
@@ -28,14 +30,14 @@ public class UserController {
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public void register(@RequestBody @Valid final RegisterUserDTO userDTO) {
-        this.userService.register(userDTO);
+        userService.register(userDTO);
     }
 
     @GetMapping(value = "/info", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public UserInfoDTO getInfo(@NotBlank @RequestParam(name = "pesel") final String pesel) {
 
-        return this.userService.getInfo(pesel);
+        return userService.getInfo(pesel);
     }
 
 

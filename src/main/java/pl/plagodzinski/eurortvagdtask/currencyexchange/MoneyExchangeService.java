@@ -19,7 +19,6 @@ import java.util.List;
 @Service
 public class MoneyExchangeService {
 
-
     private static final BigDecimal START_AMOUNT_FOR_NEW_ACCOUNT = new BigDecimal("0.0");
     private static final Logger LOG = LoggerFactory.getLogger(MoneyExchangeService.class);
     private static final List<String> supportedCurrencyCodes = Arrays.asList("PLN", "USD");
