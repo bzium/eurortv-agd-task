@@ -15,7 +15,6 @@
 	<description>Project for Euro RTV AGD</description>
 
 	<properties>
-		<spring-cloud.version>Hoxton.SR3</spring-cloud.version>
 		<org.mapstruct.version>1.3.1.Final</org.mapstruct.version>
 		<spock.version>1.3-groovy-2.5</spock.version>
 		<restassured.version>4.1.0</restassured.version>

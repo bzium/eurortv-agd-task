@@ -40,10 +40,7 @@ public class AdultValidator implements ConstraintValidator<Adult, String> {
     }
 
     private LocalDate calculateBirthDate(final String pesel) {
-        final int[] numberAsIntArray = new int[11];
-        for (int i = 0; i < 11; i++) {
-            numberAsIntArray[i] = Character.getNumericValue(pesel.charAt(i));
-        }
+        final int[] numberAsIntArray = getPeselAsarray(pesel);
 
         final int birthDay = 10 * numberAsIntArray[4] + numberAsIntArray[5];
         int birthYear = 10 * numberAsIntArray[0] + numberAsIntArray[1];
@@ -66,6 +63,14 @@ public class AdultValidator implements ConstraintValidator<Adult, String> {
         }
 
         return LocalDate.of(birthYear, birthMonth, birthDay);
+    }
+
+    private int[] getPeselAsarray(final String pesel) {
+        final int[] numberAsIntArray = new int[11];
+        for (int i = 0; i < 11; i++) {
+            numberAsIntArray[i] = Character.getNumericValue(pesel.charAt(i));
+        }
+        return numberAsIntArray;
     }
 
 }

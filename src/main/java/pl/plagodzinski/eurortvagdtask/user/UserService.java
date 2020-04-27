@@ -30,9 +30,7 @@ public class UserService {
 
     @Transactional
     public void register(final RegisterUserDTO userDTO) {
-        if (userRepository.countByPesel(userDTO.getPesel()) > 0) {
-            throw new AlreadyExistsException();
-        }
+        isUserExists(userDTO);
 
         final User user = userMapper.mapToEntity(userDTO);
 
@@ -46,6 +44,12 @@ public class UserService {
         moneyAccountRepository.save(userMoneyAccount);
 
         LOG.info("User {} registered successfully", userDTO.getPesel());
+    }
+
+    private void isUserExists(final RegisterUserDTO userDTO) {
+        if (userRepository.countByPesel(userDTO.getPesel()) > 0) {
+            throw new AlreadyExistsException();
+        }
     }
 
     public UserInfoDTO getInfo(final String pesel) {

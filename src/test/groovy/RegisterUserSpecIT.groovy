@@ -9,7 +9,22 @@ import static io.restassured.RestAssured.given
 class RegisterUserSpecIT extends Specification {
 
     @Shared
-    def defaultDto = new RegisterUserDTO("Pawel", "Lagodziński","67012885274", 0.0)
+    def BAD_REQEST_STATUS_CODE = 400
+    
+    @Shared
+    def OK_STATUS_CODE = 200
+
+    @Shared
+    def DEFAULT_START_AMOUNT = 0.0
+
+    @Shared
+    def DEFAULT_NAME = "Pawel"
+
+    @Shared
+    def DEFAULT_SURNAME = "Lagodziński"
+
+    @Shared
+    def defaultDto = new RegisterUserDTO(DEFAULT_NAME, DEFAULT_SURNAME, "67012885274", DEFAULT_START_AMOUNT)
 
     @Shared
     def registerEndpoint = "/user/register"
@@ -21,56 +36,56 @@ class RegisterUserSpecIT extends Specification {
 
     def "Register user with correct data"() {
         expect:
-            given()
+        given()
                 .body(defaultDto)
                 .contentType(ContentType.JSON)
                 .when()
                 .post(registerEndpoint)
                 .then()
-                .statusCode(200)
+                .statusCode(OK_STATUS_CODE)
     }
 
     def "Can't register user with existing pesel"() {
         expect:
-            given()
+        given()
                 .body(defaultDto)
                 .contentType(ContentType.JSON)
                 .when()
                 .post(registerEndpoint)
                 .then()
-                .statusCode(400)
+                .statusCode(BAD_REQEST_STATUS_CODE)
     }
 
     def "Can't register user with incorrect pesel"() {
         expect:
-            given()
-                    .body(new RegisterUserDTO("Pawel", "Lagodziński","1234", 0.0))
-                    .contentType(ContentType.JSON)
-                    .when()
-                    .post(registerEndpoint)
-                    .then()
-                    .statusCode(400)
+        given()
+                .body(new RegisterUserDTO(DEFAULT_NAME, DEFAULT_SURNAME, "1234", DEFAULT_START_AMOUNT))
+                .contentType(ContentType.JSON)
+                .when()
+                .post(registerEndpoint)
+                .then()
+                .statusCode(BAD_REQEST_STATUS_CODE)
     }
 
     def "Can't register user with incorrect start amount"() {
         expect:
-            given()
-                    .body(new RegisterUserDTO("Pawel", "Lagodziński","85080988918", -1.0))
-                    .contentType(ContentType.JSON)
-                    .when()
-                    .post(registerEndpoint)
-                    .then()
-                    .statusCode(400)
+        given()
+                .body(new RegisterUserDTO(DEFAULT_NAME, DEFAULT_SURNAME, "85080988918", -1.0))
+                .contentType(ContentType.JSON)
+                .when()
+                .post(registerEndpoint)
+                .then()
+                .statusCode(BAD_REQEST_STATUS_CODE)
     }
 
     def "Can't register no adult user"() {
         expect:
         given()
-                .body(new RegisterUserDTO("Pawel", "Lagodziński","11221023347", 0.0))
+                .body(new RegisterUserDTO(DEFAULT_NAME, DEFAULT_SURNAME, "11221023347", DEFAULT_START_AMOUNT))
                 .contentType(ContentType.JSON)
                 .when()
                 .post(registerEndpoint)
                 .then()
-                .statusCode(400)
+                .statusCode(BAD_REQEST_STATUS_CODE)
     }
 }
