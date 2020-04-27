@@ -15,7 +15,7 @@ public class AdultValidator implements ConstraintValidator<Adult, String> {
 
     @Override
     public void initialize(final Adult constraintAnnotation) {
-
+        LOG.info("Adult validator initialised");
     }
 
     @Override
